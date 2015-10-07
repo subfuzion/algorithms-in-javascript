@@ -1,0 +1,14 @@
+{
+  "name": "algorithms-in-javascript",
+  "version": "1.0.0",
+  "description": "Algorithms by example in JavaScript",
+  "scripts": {
+    "test": "mocha --recursive --reporter spec src"
+  },
+  "author": "Tony Pujals (http://twitter.com/subfuzion)",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "mocha": "^2.3.3"
+  }
+}
