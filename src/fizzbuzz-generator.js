@@ -4,9 +4,11 @@ function* fizzbuzz() {
   for (let i = 1; i <= 100; i++) {
     let fizz = i % 3 === 0;
     let buzz = i % 5 === 0;
+
     yield fizz
-        ? buzz ? 'FizzBuzz' : 'Fizz'
-        : buzz ? 'Buzz' : i ;
+      ? buzz ? 'FizzBuzz' : 'Fizz'
+      : buzz ? 'Buzz' : i;
+
   }
 }
 
@@ -17,4 +19,18 @@ function* fizzbuzz() {
     console.log(val);
   }
 })();
+
+// ================================================
+// TESTS
+// ================================================
+
+const Mocha = require('mocha');
+const mocha = new Mocha();
+mocha.suite.emit('pre-require', this, '', mocha);
+
+describe('fizzbuzz-generator tests', () => {
+
+});
+
+mocha.run();
 
