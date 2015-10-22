@@ -1,8 +1,21 @@
 'use strict';
 
+function fizzbuzz(n) {
+  let results = [];
 
-function f(n) {
-  return n;
+  for (let i = 1; i <= n; i++) {
+    let fizz = i % 3 === 0;
+    let buzz = i % 5 === 0;
+
+    let s = fizz
+      ? buzz ? 'FizzBuzz' : 'Fizz'
+      : buzz ? 'Buzz' : i;
+
+    console.log('%s: %s', _.padLeft(i, 3), s);
+    results.push(s);
+  }
+
+  return results;
 }
 
 // ===============================================
@@ -11,24 +24,57 @@ function f(n) {
 
 const Mocha = require('mocha');
 const mocha = new Mocha();
-mocha.suite.emit('pre-require', this, '', mocha);
+mocha.suite.emit('pre-require', this, 'fizzbuzz', mocha);
 
 const assert = require('assert');
 const format = require('util').format;
 const _ = require('lodash');
 
-describe('tests', () => {
+
+describe('fizzbuzz tests', () => {
 
   const tests = [
-    { n: 1, expect: 1 },
-    { n: 2, expect: 2}
+    {
+      n: 30, expect: [
+      1,
+      2,
+      'Fizz',
+      4,
+      'Buzz',
+      'Fizz',
+      7,
+      8,
+      'Fizz',
+      'Buzz',
+      11,
+      'Fizz',
+      13,
+      14,
+      'FizzBuzz',
+      16,
+      17,
+      'Fizz',
+      19,
+      'Buzz',
+      'Fizz',
+      22,
+      23,
+      'Fizz',
+      'Buzz',
+      26,
+      'Fizz',
+      28,
+      29,
+      'FizzBuzz'
+    ]
+    }
   ];
 
   tests.forEach(test => {
     let descr = format('n = %d', test.n);
     it(descr, () => {
       let expect = test.expect;
-      let actual = f(test.n);
+      let actual = fizzbuzz(test.n);
       assert(_.isEqual(actual, expect));
     });
   });
@@ -36,7 +82,4 @@ describe('tests', () => {
 });
 
 mocha.run();
-
-
-
 

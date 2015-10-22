@@ -5,23 +5,25 @@ function dump(v) {
 }
 
 // O(n) by eliminating unnecessary passes
-// (because once we observe there are no swaps
-// in a pass, the list is sorted and we can skip
-// remaining passes
+// (once we observe there are no swaps in a pass, the
+// list is in order and we can skip remaining passes
 function bubblesort(v) {
-  let n = v.length;
-  let swapped = true;
+  let keepChecking = true;
   dump(v);
 
-  for (let pass = n - 1; pass > 0 && swapped; pass--) {
-    swapped = false;
-    for (let i = 0; i < pass; i++) {
-      if (v[i] > v[i+1]) {
+  for (let right = v.length - 1; right > 0 && keepChecking; right--) {
+    keepChecking = false;
+    
+    for (let left = 0; left < right; left++) {
+      
+      if (v[left] > v[left+1]) {
         // swap to put the two in order
-        let t = v[i];
-        v[i] = v[i+1];
-        v[i+1] = t;
-        swapped = true;
+        let t = v[left];
+        v[left] = v[left+1];
+        v[left+1] = t;
+
+        // until we have an iteration that has no swaps, we're not done
+        keepChecking = true;
       }
       dump(v);
     }
@@ -34,42 +36,5 @@ function bubblesort(v) {
 // TESTS
 // ===========================================
 
-const Mocha = require('mocha');
-const mocha = new Mocha();
-mocha.suite.emit('pre-require', this, '', mocha);
+require('../testhelpers/sorttest')(bubblesort, 'bubblesort-better');
 
-const _ = require('lodash');
-const assert = require('assert');
-const format = require('util').format;
-
-describe('bubblesort tests', () => {
-  const tests = [
-    { v: [], expect: [] },
-    { v: [1], expect: [1] },
-    { v: [1, 2], expect: [1, 2] },
-    { v: [2, 1], expect: [1, 2] },
-    { v: [1, 2, 3], expect: [1, 2, 3] },
-    { v: [2, 3, 1], expect: [1, 2, 3] },
-    { v: [2, 4, 3, 1], expect: [1, 2, 3, 4] },
-    { v: [5, 2, 4, 3, 1], expect: [1, 2, 3, 4, 5] },
-    { v: [2, 4, 3, 1, 6, 5, 7], expect: [1, 2, 3, 4, 5, 6, 7] },
-    { v: [1, 2, 3, 4, 5, 6, 7], expect: [1, 2, 3, 4, 5, 6, 7] },
-    { v: [7, 6, 5, 4, 3, 2, 1, 0], expect: [0, 1, 2, 3, 4, 5, 6, 7] },
-  ];
-
-  tests.forEach(test => {
-    let f = bubblesort;
-    let descr = format('f([%s]) => [%s]\n'
-      + '--------------------------------------------',
-      test.v, test.expect);
-    let actual;
-
-    it (descr, () => {
-      actual = f(test.v);
-      assert(_.eq(actual, test.expect), format('FAIL: [%s]', test.v));
-    });
-
-  });
-});
-
-mocha.run();

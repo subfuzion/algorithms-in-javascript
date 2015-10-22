@@ -20,17 +20,3 @@ function* fizzbuzz() {
   }
 })();
 
-// ================================================
-// TESTS
-// ================================================
-
-const Mocha = require('mocha');
-const mocha = new Mocha();
-mocha.suite.emit('pre-require', this, '', mocha);
-
-describe('fizzbuzz-generator tests', () => {
-
-});
-
-mocha.run();
-

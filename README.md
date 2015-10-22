@@ -20,3 +20,14 @@ npm install -g mocha
 node src/<filename>
 ```
 
+Note that modules include the following:
+
+```
+const Mocha = require('mocha');
+const mocha = new Mocha();
+mocha.suite.emit('pre-require', this, '', mocha);
+---
+
+This is required to work with CodePad (https://coderpad.io/languages#javascript).
+
+

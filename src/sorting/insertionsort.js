@@ -8,6 +8,8 @@ function dump(v) {
 // despite O(n^2), more efficient than bubble or
 // selection sort in practice
 //
+// keeps left side of array sorted as it iterates through array
+//
 // every repetition of sort removes an element from input data,
 // inserts it into the correct position in already sorted list,
 // until no input elements remain.
@@ -24,23 +26,22 @@ function dump(v) {
 // for higher overhead divide-and-conquer sorting algorithms,
 // such as merge and quick sort.
 function insertionsort(v) {
-  if (!v || !v.length) return v;
-
   dump(v);
-  let j, x;
 
-  for (let i = 1; i <= v.length - 1; i++) {
-    x = v[i];
-    j = i;
+  for (let i = 1; i < v.length; i++) {
+    let j = i;
+    let x = v[i];
 
-    while (v[j-1] > x && j >= 1) {
+    while (v[j-1] > x && j > 0) {
       v[j] = v[j-1];
+      dump(v);
       j--;
     }
 
     v[j] = x;
 
     dump(v);
+    dump('---------');
   }
 
   return v;
@@ -50,42 +51,5 @@ function insertionsort(v) {
 // TESTS
 // ===========================================
 
-const Mocha = require('mocha');
-const mocha = new Mocha();
-mocha.suite.emit('pre-require', this, '', mocha);
+require('../testhelpers/sorttest')(insertionsort, 'insertionsort');
 
-const _ = require('lodash');
-const assert = require('assert');
-const format = require('util').format;
-
-describe('insertionsort tests', () => {
-  const tests = [
-    { v: [], expect: [] },
-    { v: [1], expect: [1] },
-    { v: [1, 2], expect: [1, 2] },
-    { v: [2, 1], expect: [1, 2] },
-    { v: [1, 2, 3], expect: [1, 2, 3] },
-    { v: [2, 3, 1], expect: [1, 2, 3] },
-    { v: [2, 4, 3, 1], expect: [1, 2, 3, 4] },
-    { v: [5, 2, 4, 3, 1], expect: [1, 2, 3, 4, 5] },
-    { v: [2, 4, 3, 1, 6, 5, 7], expect: [1, 2, 3, 4, 5, 6, 7] },
-    { v: [1, 2, 3, 4, 5, 6, 7], expect: [1, 2, 3, 4, 5, 6, 7] },
-    { v: [7, 6, 5, 4, 3, 2, 1, 0], expect: [0, 1, 2, 3, 4, 5, 6, 7] },
-  ];
-
-  tests.forEach(test => {
-    let f = insertionsort;
-    let descr = format('f([%s]) => [%s]\n'
-      + '--------------------------------------------',
-      test.v, test.expect);
-    let actual;
-
-    it (descr, () => {
-      actual = f(test.v);
-      assert(_.eq(actual, test.expect), format('FAIL: [%s]', test.v));
-    });
-
-  });
-});
-
-mocha.run();

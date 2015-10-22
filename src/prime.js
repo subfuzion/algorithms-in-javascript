@@ -34,6 +34,7 @@ describe ('prime tests', () => {
     { n: 10, expect: false },
     { n: 11, expect: true },
     { n: 30, expect: false },
+
     { n: 31, expect: true },
   ];
 
@@ -51,13 +52,18 @@ describe ('prime tests', () => {
 });
 
 describe ('prime performance tests - recursive', () => {
-  let start = process.hrtime();
   let n = 1000000000000;
-  let actual = prime(n);
+
+  let start = process.hrtime();
+  prime(n);
   let stop = process.hrtime(start);
-  let elapsed = format('%ds %dms', stop[0], stop[1] / 1000000);
+
+  let elapsed = format('%ds %dms', stop[0], stop[1] / 1e6);
   let result = format('measured performance of prime(%d) => %s', n, elapsed);
+
+  // nothing to assert for perf test, just display result
   it (result, () => {});
 });
 
 mocha.run();
+
